@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="map">
+
+	<select id="selectsd" resultType="MapDTO">
+		SELECT sd_cd, sd_nm FROM tl_sd
+	</select>
+
+	<select id="selectsgg" parameterType="String" resultType="MapDTO">
+		SELECT sgg_cd, sgg_nm FROM tl_sgg WHERE sd_nm=#{sdname}
+	</select>
+	
+	  <insert id="uploadFile" parameterType="Map">
+        INSERT INTO "TB_CARBON_B4" VALUES (#{yearMonthUse}, #{landLocation}, #{roadLandLocation}, #{sggCode}, #{bjdCode}, #{landCode}, #{bun}, #{ji}, #{newAddNumber}, #{newRoadCode}, #{newLandCode}, #{newbonbeon}, #{newbubeon}, #{usage}, null)
+    </insert>
+	
+	<select id="sdview" parameterType="String" resultType="MapDTO" >
+   select 
+        (select ST_XMax(geom) as xmax FROM tl_sd WHERE sd_nm = #{name}::varchar order by xmax desc limit 1)
+        ,(select ST_YMax(geom) as ymax FROM tl_sd WHERE  sd_nm =#{name}::varchar order by ymax desc limit 1)
+        ,(select  ST_XMin(geom) as xmin FROM tl_sd WHERE  sd_nm = #{name}::varchar order by xmin  limit 1)
+        ,(select ST_YMin(geom) as ymin FROM tl_sd WHERE  sd_nm = #{name}::varchar order by ymin limit 1)
+    from tl_sd limit 1
+	</select>
+	
+	<select id="sggview" parameterType="String" resultType="MapDTO" >
+   select 
+        (select ST_XMax(geom) as xmax FROM tl_sgg WHERE sgg_nm = #{name}::varchar order by xmax desc limit 1)
+        ,(select ST_YMax(geom) as ymax FROM tl_sgg WHERE  sgg_nm =#{name}::varchar order by ymax desc limit 1)
+        ,(select  ST_XMin(geom) as xmin FROM tl_sgg WHERE  sgg_nm = #{name}::varchar order by xmin  limit 1)
+        ,(select ST_YMin(geom) as ymin FROM tl_sgg WHERE  sgg_nm = #{name}::varchar order by ymin limit 1)
+    from tl_sgg limit 1
+	</select>
+	
+</mapper>
