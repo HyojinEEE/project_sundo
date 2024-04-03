@@ -1,21 +1,27 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-	pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
-<html>
+<html lang="ko">
 <head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>지도</title>
+<link href="./css/menu.css?ver=0.19" rel="stylesheet">
+
+<!-- Bootstrap CSS -->
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
 <script
-	src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"
-	integrity="sha512-v2CJ7UaYy4JwqLDIrZUI/4hqeoQieOmAZNXBeQyjo21dadnwR+8ZaIJVT8EE2iyI61OV8e6M8PP2/4hpQINQ/g=="
-	crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+   src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"
+   integrity="sha512-v2CJ7UaYy4JwqLDIrZUI/4hqeoQieOmAZNXBeQyjo21dadnwR+8ZaIJVT8EE2iyI61OV8e6M8PP2/4hpQINQ/g=="
+   crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 
 <!-- <script type="text/javascript" src="resource/js/ol.js"></script> OpenLayer 라이브러리
 <link href="resource/css/ol.css" rel="stylesheet" type="text/css" > OpenLayer css -->
 <script src="https://cdn.jsdelivr.net/npm/ol@v9.0.0/dist/ol.js"></script>
-<link rel="stylesheet"
-	href="https://cdn.jsdelivr.net/npm/ol@v9.0.0/ol.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/ol@v9.0.0/ol.css">
 <script type="text/javascript">
+   
+
    $(function() {
 
       var sd,sgg,bjd;
@@ -52,10 +58,10 @@
             data : {"test" : test},   //test 값을 "test"라는 이름으로 내보내
             success : function(result) { //성공했을때 실행하는 함수
                 
-            	var geom = result.at(-1);
-            	map.getView().fit([geom.xmin, geom.ymin, geom.xmax, geom.ymax], {duation : 900});
-            	
-            	$("#sgg").empty();  // id가 sgg를 비워라
+               var geom = result.at(-1);
+               map.getView().fit([geom.xmin, geom.ymin, geom.xmax, geom.ymax], {duation : 900});  //줌 설정시, x와 y의 최대,최소값을 넣어준거임 duation 900은 보여지는 속도...?
+               
+               $("#sgg").empty();  // id가 sgg를 비워라
                 var sgg = "<option>시군구 선택</option>";
                
                for(var i=0; i<result.length-1; i++){
@@ -81,15 +87,15 @@
             data : {"test" : test},   //test 값을 "test"라는 이름으로 내보내
             success : function(result) { //성공했을때 실행하는 함수
                 
-            	map.getView().fit([result.xmin, result.ymin, result.xmax, result.ymax], {duation : 900});
+               map.getView().fit([result.xmin, result.ymin, result.xmax, result.ymax], {duation : 900});
             },
             error : function() {
-               alert("다시 시도하세요.");
+               alert("다시.");
             }
          })
       });
 
-      $(".insertbtn").click(function() {
+      $("#insertbtn").click(function() {
 
          map.removeLayer(sd);
          map.removeLayer(sgg);
@@ -120,10 +126,6 @@
             opacity : 0.5   //투명도
          });
 
-         //for(var i in sd) sd[i].setStyle(style);
-
-         //map.addLayer(sd); // 맵 객체에 레이어를 추가함
-
          sgg = new ol.layer.Tile({
             source : new ol.source.TileWMS({
                url : 'http://localhost:8080/geoserver/hyojin/wms?service=WMS', // 1. 레이어 URL
@@ -134,15 +136,10 @@
                   'BBOX' : [ 1.386872E7, 3906626.5, 1.4428071E7, 4670269.5 ],
                   'SRS' : 'EPSG:3857', // SRID
                   'FORMAT' : 'image/png', // 포맷
-                  'FILLCOLOR' : '#5858FA'
                },
                serverType : 'geoserver',
             })
          });
-
-         //map.addLayer(sgg); // 맵 객체에 레이어를 추가함
-         
-         
 
          bjd = new ol.layer.Tile(
                {
@@ -157,16 +154,11 @@
                                     1.4428045E7, 4670269.5 ],
                               'SRS' : 'EPSG:3857', // SRID
                               'FORMAT' : 'image/png', // 포맷
-                              'FILLCOLOR' : '#5858FA'
                            },
                            serverType : 'geoserver',
                         }),
-                  opacity : 0.8
+                  opacity : 0.2
                });
-
-         //map.addLayer(bjd); // 맵 객체에 레이어를 추가함
-         
-         
          map.addLayer(sd);
          map.addLayer(sgg);
          map.addLayer(bjd);
@@ -179,7 +171,7 @@
 
          var formData = new FormData();
          formData.append("testfile", $("#txtfile")[0].files[0]);
-		//testfile : 전송할 때 사용할 이름  / id가 txtfile인 선택된 첫번째 파일
+      //testfile : 전송할 때 사용할 이름  / id가 txtfile인 선택된 첫번째 파일
          if($.inArray(test, [ 'txt' ]) == -1) {  //test 변수가 ['txt']안에 있는지 확인 있다면 1, 없다면 -1
             alert("pem 파일만 업로드 할 수 있습니다.");
             $("#txtfile").val("");
@@ -210,6 +202,8 @@
    }
    
    function modal(){
+
+      
       var maskHeight = $(document).height();
       var maskWidth = window.document.body.clientWidth;
       
@@ -242,38 +236,43 @@
 
 <style type="text/css">
 .map {
-	height: 1060px;
-	width: 100%;
+   width: 100%;
+   height: 100vh;
+   padding-left: 0;
 }
+
+
 </style>
 </head>
 <body>
-	<div class="container">
-		<div class="main">
-		<h3>탄소공간지도시스템</h3>
-			<div class="btncon">
-				<select id="sdselect">
-					<option>시도 선택</option>
-					<c:forEach items="${list }" var="sd">
-						<option class="sd" value="${sd.sd_cd }">${sd.sd_nm}</option>
-					</c:forEach>
-				</select> <select id="sgg">
-					<option>시군구 선택</option>
-				</select> <select>
-					<option selected="selected">범례 선택</option>
-				</select>
-
-				<button id="insertbtn" class="insertbtn">입력하기</button>
-
-				<form id="uploadForm">
-					<input type="file" accept=".txt" id="txtfile" name="txtfile">
-				</form>
-				<button id="transmit">전송하기</button>
-			</div>
-			<div class="map" id="map"></div>
-		</div>
-	</div>
+    <div class="container mt-5">
+        <div class="row">
+         <%@ include file="menu.jsp" %>
+            <div class="col-md-7">
+                <div class="map" id="map"></div>
+            </div>
+            <div class="col-md-4">
+                <select class="form-select mb-3" id="sdselect">
+                    <option>시도 선택</option>
+                    <c:forEach items="${list }" var="sd">
+                        <option class="sd" value="${sd.sd_cd }">${sd.sd_nm}</option>
+                    </c:forEach>
+                </select>
+                <select class="form-select mb-3" id="sgg">
+                    <option>시군구 선택</option>
+                </select>
+                <select class="form-select mb-3">
+                    <option value="default">범례 선택</option>
+                    <option value="1">등간격</option>
+                    <option value="2">네추럴 브레이크</option>
+                </select>
+                <button id="insertbtn" class="btn btn-primary mb-3">입력하기</button>
+                <form id="uploadForm" class="mb-3">
+                    <input type="file" class="form-control" accept=".txt" id="txtfile" name="txtfile">
+                </form>
+                <button id="transmit" class="btn btn-success">전송하기</button>
+            </div>
+        </div>
+    </div>
 </body>
 </html>
-
-

@@ -31,7 +31,7 @@ public class MapController {
 	
 	//시도 선택시 줌
 	@PostMapping("/selectSgg.do")
-	public List<MapDTO> selectSgg(@RequestParam("test") String name) {
+	public List<MapDTO> selectSgg(@RequestParam("test") String name) { //name이라는 이름의 test 파라미터를 받습니다. 
 		List<MapDTO> list = mapService.selectSgg(name);
 		MapDTO sdview = mapService.sdview(name);
 		list.add(sdview);

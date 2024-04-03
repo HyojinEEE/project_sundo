@@ -7,6 +7,4 @@ public interface FileService {
 
 	void uploadFile(List<Map<String, Object>> list);
 
-
-
 }
