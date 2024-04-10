@@ -33,17 +33,37 @@ public class MapController {
 	@PostMapping("/selectSgg.do")
 	public List<MapDTO> selectSgg(@RequestParam("test") String name) { //name이라는 이름의 test 파라미터를 받습니다. 
 		List<MapDTO> list = mapService.selectSgg(name);
+		List<MapDTO> geom = mapService.selectGeom(name);
+		
 		MapDTO sdview = mapService.sdview(name);
 		list.add(sdview);
 		System.out.println(list);
+		
 		return list;
 	}
 	
 	//시군구 선택시 줌
 	@PostMapping("/selectB.do")
-	public MapDTO selecB(@RequestParam("test") String name) {
-	MapDTO sggview = mapService.sggview(name);
-	return sggview;
+	public MapDTO selecB(@RequestParam("sggzoom") String name) {
+		MapDTO sggview = mapService.sggview(name);
+		System.out.println(name);
+		System.out.println(sggview);
+		return sggview;
+	}
+	
+	//등간격
+	@PostMapping("/legend.do")
+	public Map<String, Object> legend(@RequestParam("legend") String legend) {
+		Map<String , Object> response = new HashMap<>();
+		
+		if (legend.equals("hyojin")) {
+			response.put("legend",mapService.hyojin());
+			System.out.println(mapService.hyojin());
+		} else if (legend.equals("natural")) {
+			response.put("legend",mapService.natural());
+			System.out.println(mapService.natural());
+		}
+		return response;
 	}
 	
 	//파일 업로드

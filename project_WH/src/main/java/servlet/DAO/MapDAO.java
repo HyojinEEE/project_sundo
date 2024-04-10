@@ -1,4 +1,4 @@
-package servlet.Impl;
+package servlet.DAO;
 
 import java.util.List;
 
@@ -29,5 +29,6 @@ public class MapDAO {
 	public MapDTO sggview(String name) {
 		return sqlsession.selectOne("map.sggview", name);
 	}
+
 
 }

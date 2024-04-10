@@ -5,8 +5,8 @@
 <script></script>
 <nav class="menu-nav col-md-1">
 	<div class="list-group">
-  <a href="#" class="list-group-item list-group-item-action">탄소지도</a>
-  <a href="#" class="list-group-item list-group-item-action list-group-item-secondary">데이터삽입</a>
-  <a href="#" class="list-group-item list-group-item-action list-group-item-primary">통계</a>
+  <a id="tanso" class="list-group-item list-group-item-action">탄소지도</a>
+  <a id="data" class="list-group-item list-group-item-action list-group-item-secondary">데이터삽입</a>
+  <a id="statics" class="list-group-item list-group-item-action list-group-item-primary">통계</a>
 </div>
 </nav>

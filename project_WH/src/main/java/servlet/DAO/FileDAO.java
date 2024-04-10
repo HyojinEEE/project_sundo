@@ -1,4 +1,4 @@
-package servlet.Impl;
+package servlet.DAO;
 
 import java.util.List;
 import java.util.Map;

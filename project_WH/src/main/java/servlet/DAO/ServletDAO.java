@@ -1,4 +1,4 @@
-package servlet.Impl;
+package servlet.DAO;
 
 import java.util.List;
 
@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import egovframework.rte.psl.dataaccess.util.EgovMap;
+import servlet.Impl.EgovComAbstractDAO;
 
 @Repository("ServletDAO")
 public class ServletDAO extends EgovComAbstractDAO {

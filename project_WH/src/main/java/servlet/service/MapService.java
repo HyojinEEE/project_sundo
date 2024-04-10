@@ -17,4 +17,12 @@ public interface MapService {
 
 	MapDTO sggview(String name);
 
+	List<MapDTO> selectGeom(String name);
+	
+	List<MapDTO> selectB(String name);
+	
+	List<MapDTO> natural();
+
+	List<MapDTO> hyojin();	
+	
 }
